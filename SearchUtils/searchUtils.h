@@ -2,30 +2,38 @@
 #include <vector>
 
 // --- Linear search ---
-// Returns the index of key in arr, or -1 if not found.
-// comparisons will contain the number of element comparisons made.
-int linearSearch(std::vector<int>& arr, int key, int& comparisons) {
-    comparisons = 0;
+// Returns the number of comparisons made.
+// index will contain the index of key in arr, or -1 if not found.
+int linearSearch(const std::vector<int>& arr, int key, int& index) {
+    int comparisons = 0;
+    index = -1;
     for (size_t i = 0; i < arr.size(); ++i) {
-        ++comparisons; // one comparison between arr[i] and key
-        if (arr[i] == key) return static_cast<int>(i);
+        ++comparisons; // compare arr[i] and key
+        if (arr[i] == key) {
+            index = static_cast<int>(i);
+            return comparisons;
+        }
     }
-    return -1;
+    return comparisons;
 }
 
 
 // --- Iterative binary search ---
-// Returns the index of key in arr, or -1 if not found.
-// comparisons will contain the number of element comparisons made.
+// Returns the number of comparisons made.
+// index will contain the index of key in arr, or -1 if not found.
 // arr must be sorted in non-decreasing order.
-int binarySearch(const std::vector<int>& arr, int key, int& comparisons) {
-    comparisons = 0;
+int binarySearch(const std::vector<int>& arr, int key, int& index) {
+    int comparisons = 0;
+    index = -1;
     int left = 0;
     int right = static_cast<int>(arr.size()) - 1;
     while (left <= right) {
         int mid = left + (right - left) / 2;
         ++comparisons; // compare arr[mid] == key
-        if (arr[mid] == key) return mid;
+        if (arr[mid] == key) {
+            index = mid;
+            return comparisons;
+        }
         ++comparisons; // compare arr[mid] < key
         if (arr[mid] < key) {
             left = mid + 1;
@@ -33,7 +41,7 @@ int binarySearch(const std::vector<int>& arr, int key, int& comparisons) {
             right = mid - 1;
         }
     }
-    return -1;
+    return comparisons;
 }
 
 
